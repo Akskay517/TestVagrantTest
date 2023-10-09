@@ -9,7 +9,7 @@ class PlaySong {
 
     public RecentlyPlayedStore(int initialCapacity) {
         this.initialCapacity = initialCapacity;
-        this.userSongsMap = new LinkedHashMap<>(initialCapacity, 0.75f, true);
+        this.userSongsMap = new LinkedHashMap<>(initialCapacity);
     }
 
     public void addSong(String user, String song) {
