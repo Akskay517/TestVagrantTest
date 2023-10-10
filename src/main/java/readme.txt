@@ -1,48 +1,16 @@
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+RecentlyPlayedStore Class:
 
-class PlaySong {
-    private final int initialCapacity;
-    private final Map<String, List<String>> userSongsMap;
+1. RecentlyPlayedStore is a class that stores recently played songs for each user and has a fixed capacity defined by the initialCapacity.
+It uses a Map<String, List<String>> called userSongsMap to store user names as keys and a list of recently played songs as values.
+The addSong method allows adding a song for a specific user. It uses computeIfAbsent to create a list for a user if it doesn't exist and adds the song to that list.
+The fixedCapacity method ensures that the stored songs don't exceed the specified capacity. If the number of users songs exceeds the capacity, it removes the least recently played song.
+The RecentlyPlayed method returns the recently played songs for a given user.
 
-    public RecentlyPlayedStore(int initialCapacity) {
-        this.initialCapacity = initialCapacity;
-        this.userSongsMap = new LinkedHashMap<>(initialCapacity);
-    }
 
-    public void addSong(String user, String song) {
-        userSongsMap.computeIfAbsent(user, k -> new LinkedList<>()).add(song);
-        maintainCapacity();
-    }
+RecentSongs Class:
+2. RecentSongs is a class with a main method where an instance of RecentlyPlayedStore is created with an initial capacity of 2.
+Several songs are added to different users using the addSong method of the RecentlyPlayedStore.
+The user is prompted to enter a username, and the RecentlyPlayed method is called to display the recently played songs for the specified user.
 
-    public List<String> getRecentlyPlayed(String user) {
-        return userSongsMap.getOrDefault(user, new LinkedList<>());
-    }
 
-    private void maintainCapacity() {
-        if (userSongsMap.size() > initialCapacity) {
-            String leastRecentlyPlayedUser = userSongsMap.keySet().iterator().next();
-            userSongsMap.remove(leastRecentlyPlayedUser);
-        }
-    }
-}
-
-public class RecentSongs {
-    public static void main(String[] args) {
-        PlaySong store = new PlaySong(3);
-
-        store.addSong("user1", "Song1");
-        store.addSong("user1", "Song2");
-        store.addSong("user2", "Song3");
-        store.addSong("user3", "Song4");
-        store.addSong("user2", "Song5");
-        Scanner sc= new Scanner(System.in);
-        System.out.print("Enter user Name to Know which song recently played buy that user : ");
-
-        System.out.println("Recently played songs for user1: " + store.getRecentlyPlayed("user1"));
-        System.out.println("Recently played songs for user2: " + store.getRecentlyPlayed("user2"));
-        System.out.println("Recently played songs for user3: " + store.getRecentlyPlayed("user3"));
-    }
-}
+Overall, this code tells a simple recently played song store for multiple users, limiting the number of stored songs for each user based on the initial capacity. When the capacity is exceeded, it removes the least recently played user's songs to accommodate new songs.
